@@ -1,0 +1,227 @@
+README updates:
+
+- [ ] Change the README to update github link and setup instructions
+
+Fixes needed:
+
+- [ ] Need to remove these challenges:
+    - [ ] `2020/CSAW-Finals/web/snailrace1`, `2020/CSAW-Finals/web/snailrace2`
+        - snailrace1 has a tarball to hand out to players, but there's no server code. Probably not playable.
+
+- [x] Check challenges with external resources; these should be rehosted somewhere stable (if available) or excluded if they're gone for good.
+    - Tried to get some idea of how many there are by grepping for URLs:
+    - [x] `2018/CSAW-Finals/pwn/ES1337/challenge.json` : https://drive.google.com/file/d/1V9liO6e4QGzPTwpBsEVCNtC5hayPnrx8/view?usp=sharing (still up!)
+    - [x] `2018/CSAW-Finals/pwn/ES1337/challenge.json` : https://drive.google.com/file/d/1W46Hn0HyWtIMosDNkqt5ixEJUyClacUu/view?usp=sharing (still up!)
+    - [x] `2020/CSAW-Quals/rev/blox1/challenge.json` : https://wargames.ret2.systems/962c162fa1d2ea626d36/csaw_2020 (still up!)
+    - [x] `2021/CSAW-Finals/forensics/disk_image_forensics/challenge.json` : https://csaw-final-challenges.s3.us-east-2.amazonaws.com/disk-forensics.zip
+    - [x] `2021/CSAW-Finals/misc/Bane-of-IT/challenge.json` : https://csaw-final-challenges.s3.us-east-2.amazonaws.com/bane_of_it.zip (DEAD)
+    - [x] `2021/CSAW-Finals/web/grande/challenge.json` : https://grande-blog.site (DEAD)
+    - [x] `2021/CSAW-Quals/pwn/krypto/challenge.json` : https://chal-files.s3.us-east-2.amazonaws.com/disk.dist.img (DEAD)
+    - [x] `2022/CSAW-Finals/forensics/Corporate NTK Problems/challenge.json` : https://drive.google.com/file/d/1XVYMWnhgN9ykc2ikPbxMKrMuaYNxbGTk/view?usp=share_link (no permission)
+    - [x] `2022/CSAW-Finals/forensics/Corporate NTK Problems/challenge.json` : https://corporate-ntk-problems.s3.us-east-2.amazonaws.com/Corporate+NTK+Problems-disk001.vmdk (DEAD)
+
+- [x] Suspicious challenges (only have `challenge.json` and nothing else)
+    - [x] `2018/CSAW-Finals/misc/crashme`
+        - Refers to a defunct ssh server on AWS (ssh -p 2222 ubuntu@184.73.120.252); exclude.
+    - [x] `2018/CSAW-Finals/misc/leaked_flag`
+        - Welcome challenge.
+    - [x] `2018/CSAW-Finals/pwn/wic_wac_woe_part_2`
+        - This one is OK. It shares a server with wic_wac_woe_part_1. We just need to link the OCI tarball to the existing challenge and check the server name / ports.
+    - [x] `2019/CSAW-Finals/misc/alive`
+        - Welcome challenge.
+    - [x] `2019/CSAW-Finals/misc/chess`
+        - Exclude. "For NY competitors: Come play against us in Chess."
+    - [x] `2019/CSAW-Finals/misc/smash`
+        - Exclude. "For NY competitors: Come play against us in Smash."
+    - [x] `2019/CSAW-Finals/web/easiest_crackme`, `2019/CSAW-Finals/web/easiest_crackme2`, `2019/CSAW-Finals/web/easiest_crackme3`
+        - README references a multipart challenge hosted at http://crackme.web.chal.csaw.io:48394, but the code doesn't seem to be anywhere.
+        -  Writeup: https://blog.ankursundara.com/csaw19-easiest-crackme/
+        - The files distributed to the player are here: https://github.com/Sparrrgh/CTF-Writeups/tree/main/CSAW19%20Finals/Easiest%20Crackme
+        - Probably have to exclude since we don't have the server code.
+    - [x] `2019/CSAW-Quals/misc/mcgriddlev2`
+        - Welcome challenge.
+    - [x] `2020/CSAW-Finals/pwn/darkunion2`
+        - Fine. Part 2 of `2020/CSAW-Finals/pwn/darkunion1`. Needs to be linked.
+    - [x] `2020/CSAW-Finals/web/anubis`
+        - Only mentions a server, no files :(.
+    - [x] `2020/CSAW-Quals/web/sanity`
+        - Just a link to Discord; exclude.
+    - [x] `2021/CSAW-Quals/misc/Survey-says...`
+        - End of competition survey; exclude.
+    - [x] `2021/CSAW-Quals/misc/Welcome`
+        - Welcome challenge; flag is only accessible on Discord; exclude.
+    - [x]`2019/CSAW-Finals/misc/yeet_wars1`
+        - Live event; exclude. Main repo: https://github.com/cadulceus/yeet_wars/tree/06c4b6a9aec2e7f96faca52f9612cfe21bd6d5fa
+    - [x]`2019/CSAW-Finals/misc/yeet_wars2`
+        - Live event; exclude.
+
+- [ ] Challenges with failing network tests
+    - Non-docker compose challenges:
+    - [x] `2021/CSAW-Quals/web/securinotes`
+        - Uses meteor to run the service, which updates all packages to the latest version and takes a really long time. Temporarily fixed by adding an update during the build process, but this will break reproducibility over time (and it will get slower and slower).
+    - [ ] `2021/CSAW-Quals/pwn/procrastination-simulator`
+        - See notes under "Misc issues"
+    - [ ] `2022/CSAW-Quals/web/smuggling-mail`
+        - The server comes up but it's using HTTPS (and HTTP2), but the network tester only tries HTTP. File this under "Challenges that require HTTPS".
+    - [x] `2023/CSAW-Quals/web/cookie-injection`
+        - Wrong port in `challenge.json` (5000 instead of 5080). We fixed this for the earlier paper submission but apparently didn't copy those changes into the DB.
+        - [ ] TODO: Check all the 2023/CSAW-Quals challenges against what we had in the paper submission and ensure all our fixes got copied over.
+    - [ ] `2018/CSAW-Finals/pwn/ES1337`
+        - See notes under "Misc issues". I think this is almost working now as a docker-compose challenge.
+    - [ ] `2020/CSAW-Finals/web/comment_anywhere`
+        - Manually creates two containers (frontend and admin). We should convert to docker-compose.
+    - [x] `2021/CSAW-Quals/pwn/cold`
+        - Needed to roll the base arch docker image to what it was at the time of the competition and force packages to be installed from the that time.
+    - [ ] `2022/CSAW-Quals/pwn/how2pwn`
+        - This is secretly a docker-compose challenge but the docker-compose.yml is generated by `Dockerize/setup.py`. Should convert to a real docker-compose challenge.
+    - [x] `2023/CSAW-Finals/misc/sigmaslogistics`
+        - Missing proto in challenge.json. Fixed.
+    - [x] `2023/CSAW-Finals/web/dinoauth`
+        - Actually uses multiple ports running on the same server container. This seems to work fine for the actual benchmark task; I updated the network tester to support multiple ports.
+
+- [x] Challenges that are missing files mentioned in their .files key:
+    - Currently none, but I had to fix a bunch of them
+
+- [ ] Challenges that require HTTPS
+    - Some challenges make use of SSL/TLS, which requires a certificate.
+    - We need to check:
+        - [ ] How to regenerate the certificate (since the original has almost certainly expired)
+        - [ ] How to place it in the container
+        - [ ] How to make sure the ctfenv client container is configured to trust it and all apps are configured to use it?
+
+- [x] DNS/hostname issues
+    - In the original competition challenges were usually accessed with a DNS name like `crypto.chal.csaw.io`. Currently we provide a hostname based on the challenge server container's name, which works automatically in docker and allows the client to connect to it by name. This is fine for many challenges, but not all:
+        - [x] Challenges may hardcode the expected hostname somewhere in the challenge binary or source code
+        - [x] Some of the web challenges may have a setup that requires a specific hostname to route requests correctly (e.g. `2023/CWAW-Quals/rainbow-notes`)
+        - [x] Related to TLS/HTTPS issues, the certs will be issued for a specific hostname, which won't match the container name
+    - Proposed solution:
+        - [x] Identify (wherever possible) what the original hostname was; this is often in the challenge description, README, or in `challenge.json` in the `box` key. (181/275 challenges have something in the `box` key)
+        - [x] For non docker-compose challenges, use docker's `--network-alias` feature to ensure that the container is accessible by the hostname that the challenge expects.
+        - [x] For docker-compose we can also use network aliases by placing them in the `.network.[name].aliases` key of each service.
+
+- [x] Handle docker-compose challenges
+    - [x] Right now the automation framework relies on the `.compose` key in challenge.json to detect docker-compose challenges. Either needs to be added for all the compose challenges or we need to autodetect them.
+    - [x] Update automation framework to do docker load for compose chals
+    - [x] Fix networking config to use ctfnet
+    - [x] Build the challenge images and export them
+    - [x] Update the challenge's `docker-compose.yml` to use the exported images
+    - [x] (maybe) Figure out how to identify what server/port should be presented to the player automatically; otherwise, just make sure we put it in the challenge description manually.
+    - [x] `2019/CSAW-Finals/web/biometric`
+    - [x] `2019/CSAW-Finals/web/very_SaaSy`
+    - [x] `2019/CSAW-Quals/web/saasy`
+    - [x] `2020/CSAW-Finals/misc/wabfs`
+    - [x] `2021/CSAW-Finals/pwn/CSAWBox`
+    - [x] `2022/CSAW-Finals/pwn/mAsTeR 0F h0Le`
+    - [x] `2022/CSAW-Finals/web/Potion Seller`
+    - [x] `2023/CSAW-Finals/crypto/Textbook-RSA`
+    - [x] `2023/CSAW-Finals/web/nft-world`
+    - [x] `2023/CSAW-Finals/web/ShreeRamQuest`
+    - [x] `2023/CSAW-Finals/web/triathlon_or_sprint`
+    - [x] `2023/CSAW-Finals/web/uploaders-revenge`
+    - [x] `2023/CSAW-Finals/web/webhooktester`
+    - [x] `2023/CSAW-Quals/web/philanthropy`
+    - [x] `2023/CSAW-Quals/web/rainbow-notes`
+
+- [x] Challenges with Dockerfile but no OCI tarball:
+    - [x] `2018/CSAW-Finals/pwn/wic_wac_woe`
+    - [x] `2018/CSAW-Finals/web/BEBAFECA_CSAW`
+    - [x] `2018/CSAW-Finals/web/nekocat`
+    - [x] `2018/CSAW-Finals/web/raid_fat_fs_chal`
+        - NB: needs `--privileged`; added support in automation framework
+    - [x] `2019/CSAW-Quals/crypto/fault_box`
+    - [x] `2019/CSAW-Quals/pwn/pop_goes_the_printer`
+    - [x] `2021/CSAW-Finals/pwn/horrorscope`
+    - [x] `2021/CSAW-Quals/rev/ncore`
+        - Found a solver and fully validated!
+
+- [ ] Missing/invalid port
+    - Missing:
+        - [ ] `2019/CSAW-Finals/web/biometric` null
+        - [ ] `2019/CSAW-Finals/web/very_SaaSy` null
+        - [ ] `2019/CSAW-Quals/web/saasy` null
+        - [ ] `2020/CSAW-Finals/misc/wabfs` null
+        - [ ] `2020/CSAW-Finals/web/comment_anywhere` null
+        - [ ] `2021/CSAW-Quals/pwn/procrastination-simulator` null
+        - [ ] `2023/CSAW-Finals/crypto/Textbook-RSA` null
+        - [ ] `2023/CSAW-Finals/web/triathlon_or_sprint` null
+        - [ ] `2023/CSAW-Finals/web/webhooktester` null
+    - Weird case with multiple ports:
+        - [x] `2023/CSAW-Finals/web/dinoauth` [ 3001, 3002 ]
+    - (minor) Port is string instead of number; still works but should be consistent:
+        - [ ] `2021/CSAW-Quals/web/securinotes` "5000"
+        - [ ] `2022/CSAW-Quals/rev/the_big_bang` "5000"
+        - [ ] `2020/CSAW-Quals/pwn/feather` "8000"
+        - [ ] `2020/CSAW-Quals/pwn/thebardsfail` "8000"
+        - [ ] `2021/CSAW-Finals/rev/maze` "5000"
+
+- [x] Misc challenges with servers that don't declare a proto ("nc" or "web") explicitly
+    - Can we do some protocol detection here?
+    - [x] `2020/CSAW-Finals/misc/wabfs` (web; compose)
+    - [x] `2022/CSAW-Finals/misc/ImPROMPTu` (web)
+    - [x] `2022/CSAW-Quals/misc/CatTheFlag` (web)
+    - [x] `2023/CSAW-Finals/misc/sigmaslogistics` (nc)
+    - [x] `2023/CSAW-Quals/misc/android-dropper` (web)
+    - [x] `2023/CSAW-Quals/misc/TradingGame` (web)
+
+- [x] Challenges that provide a specific libc/other shared lib
+    - Ensure that the provided shared lib is placed in the container; otherwise exploits may not work
+    - [x] `2019/CSAW-Finals/pwn/arevenge` "a.out, libc-2.27.so"
+    - [x] `2019/CSAW-Finals/pwn/defile` "defile, libc.so.6"
+    - [x] `2019/CSAW-Finals/pwn/superfly2` "libsuperfly.so, libjemalloc.so.2, libc-2.27.so"
+    - [x] `2019/CSAW-Finals/pwn/superfly` "libsuperfly.so, libjemalloc.so.2, libc-2.27.so"
+    - [x] `2019/CSAW-Quals/pwn/baby_boi` "baby_boi, libc-2.27.so, baby_boi.c"
+    - [x] `2019/CSAW-Quals/pwn/got_milk` "dist/gotmilk, dist/libmylib.so"
+    - [x] `2019/CSAW-Quals/pwn/popping_caps_2` "popping_caps, libc.so.6"
+    - [x] `2019/CSAW-Quals/pwn/popping_caps` "popping_caps, libc.so.6"
+    - [x] `2019/CSAW-Quals/pwn/traveller` "libc-2.23.so, traveller"
+    - [x] `2020/CSAW-Quals/pwn/feather` "feather, feather.cpp, libc-2.31.so"
+    - [x] `2020/CSAW-Quals/pwn/grid` "grid, libc-2.27.so, libstdc++.so.6.0.25"
+    - [x] `2020/CSAW-Quals/pwn/roppity` "rop, libc-2.27.so"
+    - [x] `2020/CSAW-Quals/pwn/thebardsfail` "bard, libc-2.27.so"
+    - [x] `2021/CSAW-Finals/pwn/auto-pwn` "libc-2.24.so"
+    - [x] `2021/CSAW-Finals/pwn/baby_mqtt` "public/mqtt_strip, public/libc.so.6, public/Dockerfile"
+    - [x] `2021/CSAW-Finals/pwn/chaff_mqtt` "public/mqtt_strip, public/libc.so.6, public/Dockerfile, notes.txt"
+    - [x] `2021/CSAW-Finals/pwn/horrorscope` "public/horrorscope, public/libc-2.34.so, Dockerfile"
+    - [x] `2021/CSAW-Quals/pwn/cold` "cold, libc.so.6"
+    - [x] `2021/CSAW-Quals/pwn/word-games` "word_games, libc-2.33.so"
+    - [x] `2022/CSAW-Finals/pwn/smoothie operator` "public/smoothie_operator, public/libc-2.31.so"
+    - [x] `2019/CSAW-Quals/pwn/pop_goes_the_printer/libs_release.tar.gz`
+    - [x] `2022/CSAW-Quals/rev/AnyaGacha/linux.zip`
+    - [x] `2023/CSAW-Finals/pwn/brainflop/share.zip`
+    - [x] `2023/CSAW-Quals/pwn/super_secure_heap/share.zip`
+
+- [x] Misc issues/problems with specific challenges
+    - [x] `2022/CSAW-Finals/pwn/CryptoPwn`
+        - The distributed `share.zip` accidentally includes `flag.txt`!
+    - [x] `2021/CSAW-Quals/pwn/procrastination-simulator`
+        - Builds 50 different containers; all of them need to be running for the challenge to work; convert to docker-compose? In the actual competition there was a proxy that forwarded port BASE+N to the Nth container, maybe can replicate this with docker-compose, with one frontend container that uses socat to forward to the others.
+        - [x] The actual binaries need to be compiled inside of a container with an older libc (2.24); otherwise they won't run on the challenge servers.
+    - [x] `2022/CSAW-Finals/misc/ImPROMPTu`
+        - [x] Needs a valid OpenAI key to be placed in `Deploy/openai_api_key.txt` before building.
+        - Update the challenge app to get the key from an environment variable instead of a file, and have the key be passed in by the automation framework.
+            - Should we make this a generic mechanism where the challenge.json can specify env vars it needs to run?
+        - [x] The model used by the app, `text-davinci-002`, is no longer available. I've updated it to `gpt-3.5-turbo-instruct` which is a bit newer and still seems to work (the attack still works; unclear if difficulty has changed).
+    - [x] `2018/CSAW-Finals/web/online_previewer`
+        - Only has a challenge.json with a description referring to a defunct AWS instance; no actual challenge files.
+        - [x] Ask Jules Denardou & Justin Massey from Datadog (challenge authors) if they still have a copy of the challenge files
+            - They do apparently, and will share them with us.
+    - [x] `2019/CSAW-Finals/crypto/birthday`
+        - Same deal as `2018/CSAW-Finals/web/online_previewer`; only has a challenge.json with a description referring to a defunct AWS instance; no actual challenge files.
+    - [x] `2022/CSAW-Quals/rev/dockREleakage`
+        - The Dockerfile in this challenge is not actually used to create a challenge server; it's used to build an OCI tarball that is given to the player to analyze.
+        - [x] Renamed the Dockerfile to `Dockerfile.ignored` to prevent the container from being built automatically.
+    - [x] `2018/CSAW-Finals/pwn/ES1337`
+        - The OCI image we have is not the challenge server; rather, it's the container that the challenge server is supposed to start on-demand to test the player's exploit. To get this working we will need to make a Dockerfile for the server, and figure out how to allow the server container to start the test containers.
+        - [x] Make a Dockerfile for the challenge server
+        - [x] Make a docker-compose.yml.
+            - Maps in `/var/run/docker.sock` so that the server container can start test containers.
+        - [x] Bundle `itszn/v8_csaw` into the OCI tarball along with `asibench_2018f-pwn-es1337` so both get loaded.
+        - [x] Figure out how to make the large resources available to the player. RIght now they're on google drive which is not easy for the LLM to access.
+        - [ ] Disable PoW solver? It was only intended to stop DoS attempts, and it will make things harder for the LLM.
+        - [ ] If we don't disable the PoW then include the Python3 version in the files distributed to the player.
+    - [x] `2019/CSAW-Finals/web/very_SaaSy`
+        - The handout file (`info.tar.gz`) is actually a zip file. This might confuse the LLM but I suppose it might have confused the players too.
+    - [x] `2019/CSAW-Quals/pwn/twitch_plays_shellcode`
+        - This challenge was only playble during the original competition; it did a live stream on twitch where the players in the chat could vote on individual bytes in a page of memory that would get executed.
+    - [x] `2019/CSAW-Finals/misc/pwny_racing`
+        - Another live event (see https://challonge.com/csaw_pwny_racing); however, the individual challenges are still available: https://github.com/Vector35/csaw-2019-pwny-race
